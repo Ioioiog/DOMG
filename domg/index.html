@@ -1,261 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DOMG – Beat Sync</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      background: #0a0a0a;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #fff;
-      flex-direction: column;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOMG – Do Music for Good</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+        {
+            "imports": {
+                "tone": "https://cdn.skypack.dev/tone"
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .card {
-      background: linear-gradient(135deg, #1a1a1a, #111);
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(249, 168, 37, 0.25);
-      padding: 40px 30px;
-      width: 350px;
-      text-align: center;
-      position: relative;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #121212, #2d2d2d);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-    .card h1 {
-      font-family: 'Roboto Mono', monospace;
-      font-size: 3.5rem;
-      color: #f9a825;
-      margin-bottom: 10px;
-      transition: transform 0.1s ease;
-    }
+        /* Animated background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 50%, rgba(255, 235, 59, 0.1) 100%);
+            z-index: -1;
+            animation: pulse 15s infinite alternate;
+        }
 
-    .card h2 {
-      font-weight: 300;
-      color: #ccc;
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
+        @keyframes pulse {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 0.1; }
+        }
 
-    .slot-row {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+        }
 
-    .slot {
-      width: 50px;
-      height: 70px;
-      background: #222;
-      border: 2px solid #444;
-      font-size: 2rem;
-      font-family: 'Roboto Mono', monospace;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      border-radius: 8px;
-    }
+        .card {
+            background: rgba(25, 25, 25, 0.8);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 0 30px rgba(255, 230, 0, 0.15),
+                        0 0 15px rgba(255, 230, 0, 0.1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
 
-    .slot-reel {
-      display: flex;
-      flex-direction: column;
-    }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, rgba(255,235,59,0) 0%, rgba(255,235,59,0.5) 50%, rgba(255,235,59,0) 100%);
+            z-index: -1;
+            animation: borderGlow 8s infinite linear;
+        }
 
-    .slot-reel span {
-      height: 70px;
-      line-height: 70px;
-      text-align: center;
-    }
+        @keyframes borderGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-    .acronym {
-      font-size: 0.85rem;
-      color: #aaa;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      min-height: 1.2em;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 230, 0, 0.2),
+                        0 5px 20px rgba(255, 230, 0, 0.15);
+        }
 
-    .acronym.visible {
-      opacity: 1;
-    }
+        h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 5rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+            transition: transform 0.1s ease, text-shadow 0.3s ease;
+            animation: heartbeat 1.2s infinite ease-in-out;
+            position: relative;
+            display: inline-block;
+        }
 
-    .header-visual {
-      width: 100%;
-      height: 100px;
-      margin-top: 20px;
-      opacity: 0.25;
-    }
+        h1::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            color: transparent;
+            text-shadow: 0 0 25px rgba(255, 235, 59, 0.7);
+            animation: textGlow 2s infinite alternate;
+        }
 
-    #soundwave {
-      width: 100%;
-      height: 100%;
-    }
+        @keyframes textGlow {
+            0% { filter: blur(3px); opacity: 0.5; }
+            100% { filter: blur(6px); opacity: 0.8; }
+        }
 
-    #soundwave path {
-      animation: wave 4s linear infinite alternate;
-    }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.08); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.05); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
 
-    @keyframes wave {
-      0% {
-        d: path("M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15");
-      }
-      50% {
-        d: path("M0 15 Q 5 30, 10 15 T 20 15 Q 25 0, 30 15 T 40 15 Q 45 30, 50 15 T 60 15 Q 65 0, 70 15 T 80 15 Q 85 30, 90 15 T 100 15");
-      }
-      100% {
-        d: path("M0 15 Q 5 10, 10 15 T 20 15 Q 25 20, 30 15 T 40 15 Q 45 10, 50 15 T 60 15 Q 65 20, 70 15 T 80 15 Q 85 10, 90 15 T 100 15");
-      }
-    }
-  </style>
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -8px;
+            left: 50%;
+            background-color: rgba(255, 235, 59, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover h2::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .soundwave {
+            width: 100%;
+            height: 80px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .soundwave::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(25,25,25,0.8) 0%, rgba(25,25,25,0) 10%, rgba(25,25,25,0) 90%, rgba(25,25,25,0.8) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .soundwave svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 3px rgba(255, 235, 59, 0.3));
+        }
+
+        .slot-machine {
+            margin: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .acronym {
+            font-size: 1.25rem;
+            color: #f0f0f0;
+            height: 24px;
+            margin-top: 1.5rem;
+            font-style: italic;
+            transition: all 0.8s ease;
+            position: relative;
+            padding: 0.5rem;
+        }
+
+        .acronym::before {
+            content: '{ ';
+            color: #ffeb3b;
+            opacity: 0.7;
+        }
+
+        .acronym::after {
+            content: ' }';
+            color: #ffeb3b;
+            opacity: 0.7;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            display: block;
+            pointer-events: none;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(255, 235, 59, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 50%;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Interactive hover effect for the title */
+        #domg-title {
+            cursor: pointer;
+        }
+
+        #domg-title:hover {
+            text-shadow: 0 0 25px rgba(255, 235, 59, 0.8),
+                          0 0 35px rgba(255, 235, 59, 0.6);
+            animation-play-state: paused;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .acronym {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <div class="card">
-    <h1 id="domgTitle">DOMG</h1>
-    <h2>Do Music for Good</h2>
-
-    <div class="slot-row" id="slot-row"></div>
-    <div class="acronym" id="acronym"></div>
-
-    <div class="header-visual">
-      <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
-        <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" stroke="#f9a825" fill="none" stroke-width="1.5" />
-      </svg>
+    <div class="container">
+        <div class="particles" id="particles"></div>
+        <div class="card">
+            <h1 id="domg-title" data-text="DOMG">DOMG</h1>
+            <h2>Do Music for Good</h2>
+            
+            <div class="soundwave" id="soundwave">
+                <!-- SVG Soundwave will be injected here -->
+            </div>
+            
+            <div class="slot-machine">
+                <div class="acronym" id="acronym">Dreaming Of Musical Greatness</div>
+            </div>
+        </div>
     </div>
-  </div>
+    
+    <script type="module">
+        import * as Tone from 'tone';
 
-  <!-- 🎵 Embed music -->
-  <audio id="music" src="audio/domg-beat.mp3" autoplay loop controls style="margin-top:20px;"></audio>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create the soundwave SVG
+            createSoundwave();
+            
+            // Initialize the DOMG display
+            initializeDOMG();
+            
+            // Set up audio
+            setupAudio();
+            
+            // Create floating particles
+            createParticles();
+            
+            // Add interactive events
+            setupInteractivity();
+        });
 
-  <script>
-    // Slot logic
-    const acronymText = document.getElementById('acronym');
-    const slotRow = document.getElementById('slot-row');
-    const targetLetters = ['D', 'O', 'M', 'G'];
-    const slotHeight = 70;
-    const reelLength = 10;
-    const slotElements = [];
-
-    const acronyms = [
-      "Doing Outstanding Music for Good",
-      "Defend Originality, Make Good",
-      "Do Our Magic Globally",
-      "Dream Of Music Globalized"
-    ];
-
-    function getRandomChar() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      return chars[Math.floor(Math.random() * chars.length)];
-    }
-
-    function createReel(targetLetter) {
-      const reel = document.createElement('div');
-      reel.className = 'slot-reel';
-
-      for (let i = 0; i < reelLength; i++) {
-        const span = document.createElement('span');
-        span.textContent = getRandomChar();
-        reel.appendChild(span);
-      }
-
-      const finalSpan = document.createElement('span');
-      finalSpan.textContent = targetLetter;
-      reel.appendChild(finalSpan);
-
-      return reel;
-    }
-
-    function spinReel(reel, index) {
-      const totalSteps = reelLength + 1;
-      anime({
-        targets: reel,
-        translateY: [0, -totalSteps * slotHeight],
-        duration: 2000 + index * 400,
-        easing: 'easeInOutCubic'
-      });
-    }
-
-    function spinAll() {
-      acronymText.classList.remove('visible');
-      acronymText.textContent = '';
-
-      slotElements.forEach((slotObj, index) => {
-        slotObj.reel.style.transform = 'translateY(0)';
-        spinReel(slotObj.reel, index);
-      });
-
-      setTimeout(() => {
-        const random = acronyms[Math.floor(Math.random() * acronyms.length)];
-        acronymText.textContent = random;
-        acronymText.classList.add('visible');
-      }, 2500);
-    }
-
-    function initSlots() {
-      targetLetters.forEach(letter => {
-        const slot = document.createElement('div');
-        slot.className = 'slot';
-
-        const reel = createReel(letter);
-        slot.appendChild(reel);
-
-        slotElements.push({ reel });
-        slotRow.appendChild(slot);
-      });
-    }
-
-    // Music volume animation
-    const title = document.getElementById('domgTitle');
-    const audio = document.getElementById('music');
-
-    const context = new AudioContext();
-    const src = context.createMediaElementSource(audio);
-    const analyser = context.createAnalyser();
-    src.connect(analyser);
-    analyser.connect(context.destination);
-    analyser.fftSize = 256;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function animateBeat() {
-      requestAnimationFrame(animateBeat);
-      analyser.getByteFrequencyData(dataArray);
-
-      let sum = 0;
-      for (let i = 0; i < bufferLength; i++) {
-        sum += dataArray[i];
-      }
-      const volume = sum / bufferLength;
-      const scale = 1 + (volume / 256) * 0.5;
-
-      title.style.transform = `scale(${scale.toFixed(2)})`;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      initSlots();
-      spinAll();
-      setInterval(spinAll, 7000);
-
-      document.body.addEventListener('click', () => {
-        if (context.state !== 'running') {
-          context.resume().then(() => {
-            animateBeat();
-          });
+        // Create animated SVG soundwave with enhanced animations
+        function createSoundwave() {
+            const soundwaveContainer = document.getElementById('soundwave');
+            const svgNS = "http://www.w3.org/2000/svg";
+            
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("viewBox", "0 0 800 100");
+            svg.setAttribute("preserveAspectRatio", "none");
+            
+            // Create bars for the soundwave with more variety
+            const numBars = 60;
+            const barWidth = 800 / numBars;
+            
+            for (let i = 0; i < numBars; i++) {
+                const bar = document.createElementNS(svgNS, "rect");
+                const height = Math.random() * 70 + 20;
+                const hue = 50 + Math.random() * 10; // Yellow-gold range
+                
+                bar.setAttribute("x", i * barWidth);
+                bar.setAttribute("y", (100 - height) / 2);
+                bar.setAttribute("width", barWidth - 2);
+                bar.setAttribute("height", height);
+                bar.setAttribute("rx", 2);
+                bar.setAttribute("ry", 2);
+                bar.setAttribute("fill", `hsl(${hue}, 90%, 65%)`);
+                bar.setAttribute("opacity", 0.7 + Math.random() * 0.3);
+                
+                // Add more complex animation with easing
+                const animate = document.createElementNS(svgNS, "animate");
+                animate.setAttribute("attributeName", "height");
+                animate.setAttribute("values", `${height};${Math.random() * 80 + 10};${height}`);
+                animate.setAttribute("dur", `${Math.random() * 2 + 1}s`);
+                animate.setAttribute("repeatCount", "indefinite");
+                animate.setAttribute("calcMode", "spline");
+                animate.setAttribute("keySplines", "0.42 0 0.58 1; 0.42 0 0.58 1");
+                
+                const animateY = document.createElementNS(svgNS, "animate");
+                animateY.setAttribute("attributeName", "y");
+                animateY.setAttribute("values", `${(100 - height) / 2};${(100 - (Math.random() * 80 + 10)) / 2};${(100 - height) / 2}`);
+                animateY.setAttribute("dur", `${Math.random() * 2 + 1}s`);
+                animateY.setAttribute("repeatCount", "indefinite");
+                animateY.setAttribute("calcMode", "spline");
+                animateY.setAttribute("keySplines", "0.42 0 0.58 1; 0.42 0 0.58 1");
+                
+                // Add color animation
+                const animateColor = document.createElementNS(svgNS, "animate");
+                animateColor.setAttribute("attributeName", "fill");
+                animateColor.setAttribute("values", `hsl(${hue}, 90%, 65%);hsl(${hue+5}, 90%, 70%);hsl(${hue}, 90%, 65%)`);
+                animateColor.setAttribute("dur", `${Math.random() * 3 + 2}s`);
+                animateColor.setAttribute("repeatCount", "indefinite");
+                
+                bar.appendChild(animate);
+                bar.appendChild(animateY);
+                bar.appendChild(animateColor);
+                svg.appendChild(bar);
+            }
+            
+            soundwaveContainer.appendChild(svg);
         }
-      });
-    });
-  </script>
+
+        // Initialize DOMG display with enhanced acronym transitions
+        function initializeDOMG() {
+            const acronymElement = document.getElementById('acronym');
+            const acronyms = [
+                "Dreaming Of Musical Greatness",
+                "Doing Outstanding Music for Good",
+                "Dare to Overcome with Music and Grace",
+                "Drive Original Melodies for Growth",
+                "Drop Over Mediocrity, Go beyond",
+                "Dedicated to Opening Minds with Groove",
+                "Defining Our Mission through Genres",
+                "Deep Organic Music Gives",
+                "Drive Opportunity through Music and Giving",
+                "Drop Of Music, Galaxy of meaning",
+                "Do Only Meaningful Grooves",
+                "Dream Of Music Globalized",
+                "Different Outlooks, Mutual Goal",
+                "Design Our Melody for Goodness",
+                "Dare Others with Music Generosity",
+                "Do Our Magic Globally",
+                "Deliver On Music's Gift",
+                "Dreamers Opening Minds through Groove",
+                "Drop Old Models, Grow new",
+                "Dedicated Organizers of Music and Goodwill"
+            ];
+            
+            let currentAcronym = 0;
+            
+            function changeAcronym() {
+                acronymElement.style.transform = "translateY(10px)";
+                acronymElement.style.opacity = 0;
+                
+                setTimeout(() => {
+                    acronymElement.textContent = acronyms[currentAcronym];
+                    acronymElement.style.transform = "translateY(0)";
+                    acronymElement.style.opacity = 1;
+                    currentAcronym = (currentAcronym + 1) % acronyms.length;
+                }, 500);
+            }
+            
+            // Change acronym every 5 seconds
+            setInterval(changeAcronym, 5000);
+        }
+
+        // Set up enhanced audio visualization with more dynamic effects
+        function setupAudio() {
+            const domgTitle = document.getElementById('domg-title');
+            
+            // Create a synth and effects chain
+            const synth = new Tone.Synth({
+                oscillator: {
+                    type: "sine"
+                },
+                envelope: {
+                    attack: 0.05,
+                    decay: 0.2,
+                    sustain: 0.2,
+                    release: 1
+                }
+            }).toDestination();
+            
+            const reverb = new Tone.Reverb(1.5).toDestination();
+            synth.connect(reverb);
+            
+            const meter = new Tone.Meter();
+            synth.connect(meter);
+            
+            // Audio triggered visualization
+            function visualize() {
+                if (domgTitle) {
+                    const level = meter.getValue();
+                    const scaleFactor = 1 + Math.abs(level) * 0.3;
+                    
+                    domgTitle.style.transform = `scale(${scaleFactor > 1 ? scaleFactor : 1})`;
+                    domgTitle.style.textShadow = `0 0 ${15 + Math.abs(level) * 20}px rgba(255, 235, 59, ${0.5 + Math.abs(level) * 0.5})`;
+                    
+                    const bars = document.querySelectorAll('#soundwave svg rect');
+                    if (bars.length > 0) {
+                        bars.forEach((bar, index) => {
+                            // Use a sine wave pattern for more natural movement
+                            const time = performance.now() / 1000;
+                            const offset = index * 0.1;
+                            const intensity = (Math.sin(time * 2 + offset) + 1) / 2;
+                            
+                            const height = 15 + intensity * 85;
+                            bar.setAttribute('height', height);
+                            bar.setAttribute('y', (100 - height) / 2);
+                            bar.setAttribute('opacity', 0.4 + intensity * 0.6);
+                        });
+                    }
+                    
+                    requestAnimationFrame(visualize);
+                }
+            }
+            
+            visualize();
+            
+            // Play a melody when the title is clicked
+            if (domgTitle) {
+                domgTitle.addEventListener('click', async () => {
+                    // Request audio context unlock
+                    await Tone.start();
+                    
+                    // D-O-M-G melody (D, G, B, D notes)
+                    const notes = ["D4", "G4", "B4", "D5"];
+                    const times = [0, 0.25, 0.5, 0.75];
+                    const durations = ["8n", "8n", "8n", "4n"];
+                    
+                    const now = Tone.now();
+                    
+                    notes.forEach((note, i) => {
+                        synth.triggerAttackRelease(note, durations[i], now + times[i]);
+                    });
+                    
+                    // Add visual feedback
+                    domgTitle.style.textShadow = "0 0 30px rgba(255, 235, 59, 0.9)";
+                    setTimeout(() => {
+                        domgTitle.style.textShadow = "0 0 15px rgba(255, 235, 59, 0.5)";
+                    }, 1000);
+                });
+            }
+        }
+        
+        // Create floating particles for ambient background effect
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const numParticles = 30;
+            
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('span');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 15;
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.bottom = '-20px';
+                particle.style.opacity = opacity.toString();
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Add interactive elements to the page
+        function setupInteractivity() {
+            const card = document.querySelector('.card');
+            const soundwaveBars = document.querySelectorAll('#soundwave svg rect');
+            
+            // Mouse move effect on card
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element
+                const y = e.clientY - rect.top;  // y position within the element
+                
+                // Calculate position as a percentage
+                const xPercent = x / rect.width;
+                const yPercent = y / rect.height;
+                
+                // Update soundwave bars based on mouse position
+                soundwaveBars.forEach((bar, index) => {
+                    const distance = Math.abs(index / soundwaveBars.length - xPercent);
+                    const effect = 1 - Math.min(distance * 3, 1); // Stronger effect for closer bars
+                    
+                    if (effect > 0) {
+                        const currentHeight = parseFloat(bar.getAttribute('height'));
+                        const newHeight = currentHeight * (1 + effect * 0.3);
+                        bar.setAttribute('height', newHeight);
+                        bar.setAttribute('y', (100 - newHeight) / 2);
+                        bar.setAttribute('opacity', Math.min(0.4 + effect * 0.6, 1));
+                    }
+                });
+                
+                // Subtle tilt effect
+                card.style.transform = `perspective(1000px) rotateX(${(yPercent - 0.5) * -5}deg) rotateY(${(xPercent - 0.5) * 5}deg)`;
+            });
+            
+            // Reset card on mouse leave
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        }
+    </script>
 </body>
 </html>
