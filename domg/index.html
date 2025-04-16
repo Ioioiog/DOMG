@@ -1,74 +1,204 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DOMG – Do Music for Good</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 80px 20px 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: #ccc;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    section h3 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: #f9a825;
+    }
+
+    section p, li {
+      margin-bottom: 20px;
+    }
+
+    .slot-row {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      font-size: 3rem;
+    }
+
+    .slot {
+      width: 60px;
+      height: 60px;
+      background: #222;
+      border: 2px solid #555;
+      margin: 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .acronym {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
 
   <header>
-    <div class="header-content">
-      <h1>DOMG</h1>
-      <div class="subtitle-container">
-         <span class="subtitle-prefix">Do Music for Good</span>
-         <span class="subtitle-separator">//</span>
-         <span id="dynamic-subtitle">Where Every Note Has a Name.</span>
-      </div>
-    </div>
-    <div class="header-visual">
-       <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
-         <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" stroke="#f9a825" fill="none" stroke-width="1.5" />
-       </svg>
-    </div>
+    <h1>DOMG – Do Music for Good</h1>
+    <h2>Where Every Note Has a Name.</h2>
   </header>
 
-  <main>
-    <!-- Slot Rows -->
-    <section id="slots-section">
-      <h2>What does DOMG mean?</h2>
-      <!-- JavaScript will inject 4 rows of slots and acronyms -->
-    </section>
+  <!-- Slot Rows -->
+  <section id="slots-section" class="center">
+    <!-- JavaScript will inject 4 rows of slots and acronyms -->
+  </section>
 
-    <section class="content-section" id="about">
-      <h3>1. The Idea</h3>
-      <p>Imagine giving someone a melody made just for them. Or launching your brand with a sound no one else has. At DOMG, we turn your story, your message, or your someone into original music.</p>
+  <section>
+    <h3>1. The Idea</h3>
+    <p>Imagine giving someone a melody made just for them. Or launching your brand with a sound no one else has. At DOMG, we turn your story, your message, or your someone into original music.</p>
 
-      <h3>2. The Offering</h3>
-      <p>You tell us who it’s for, what they love, what they mean to you—or what your business stands for. We take your words, your vibe, your feeling—and transform it into music. A song. A soundtrack. A sonic experience.</p>
+    <h3>2. The Offering</h3>
+    <p>You tell us who it’s for, what they love, what they mean to you—or what your business stands for. We take your words, your vibe, your feeling—and transform it into music. A song. A soundtrack. A sonic experience.</p>
 
-      <h3>3. The Magic</h3>
-      <p>Whether it’s a birthday gift, a wedding moment, a campaign theme, or a brand anthem—this is music with a mission: To make someone feel seen. To make your message unforgettable.</p>
+    <h3>3. The Magic</h3>
+    <p>Whether it’s a birthday gift, a wedding moment, a campaign theme, or a brand anthem—this is music with a mission: To make someone feel seen. To make your message unforgettable.</p>
 
-      <h3>4. The Process</h3>
-      <ul>
-        <li><span class="step-icon">→</span> You give us the details.</li>
-        <li><span class="step-icon">♫</span> We craft your melody.</li>
-        <li><span class="step-icon">✓</span> You get a custom song, delivered with heart, ready to share.</li>
-      </ul>
+    <h3>4. The Process</h3>
+    <ul>
+      <li>You give us the details.</li>
+      <li>We craft your melody.</li>
+      <li>You get a custom song, delivered with heart, ready to share.</li>
+    </ul>
 
-      <h3>5. The Why</h3>
-      <p>Because music is one of the most personal gifts you can give. And in the world of business, it’s the emotion behind the message that makes people remember.</p>
+    <h3>5. The Why</h3>
+    <p>Because music is one of the most personal gifts you can give. And in the world of business, it’s the emotion behind the message that makes people remember.</p>
 
-      <p class="emphasis"><strong>This is music with meaning. This is DOMG.</strong></p>
-    </section>
-  </main>
+    <p><strong>This is music with meaning. This is DOMG.</strong></p>
+  </section>
 
   <footer>
-    <p>&copy; <span id="year"></span> DOMG – Do Music for Good. All rights reserved.</p>
+    &copy; 2025 DOMG – Do Music for Good. All rights reserved.
   </footer>
 
-  <script type="importmap">
-    {
-      "imports": {
-        "animejs": "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.es.js"
+  <script>
+    const acronyms = [
+      "Doing Outstanding Music for Good",
+      "Dare to Overcome with Music and Grace",
+      "Drive Original Melodies for Growth",
+      "Drop Over Mediocrity, Go beyond",
+      "Dedicated to Opening Minds with Groove",
+      "Defining Our Mission through Genres",
+      "Deep Organic Music Gives",
+      "Drive Opportunity through Music and Giving",
+      "Drop Of Music, Galaxy of meaning",
+      "Do Only Meaningful Grooves",
+      "Dream Of Music Globalized",
+      "Different Outlooks, Mutual Goal",
+      "Design Our Melody for Goodness",
+      "Dare Others with Music Generosity",
+      "Do Our Magic Globally",
+      "Deliver On Music’s Gift",
+      "Dreamers Opening Minds through Groove",
+      "Drop Old Models, Grow new",
+      "Defend Originality, Make Good",
+      "Dedicated Organizers of Music and Goodwill"
+    ];
+
+    const letters = ['D', 'O', 'M', 'G'];
+    const slotsSection = document.getElementById('slots-section');
+    const rowCount = 4;
+    const rows = [];
+
+    for (let i = 0; i < rowCount; i++) {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'slot-row';
+      const acronymText = document.createElement('div');
+      acronymText.className = 'acronym';
+      acronymText.id = `acronym-${i}`;
+      const slotElements = [];
+
+      for (let j = 0; j < 4; j++) {
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+        slot.textContent = letters[j];
+        rowDiv.appendChild(slot);
+        slotElements.push(slot);
       }
+
+      slotsSection.appendChild(rowDiv);
+      slotsSection.appendChild(acronymText);
+      rows.push({ slots: slotElements, acronym: acronymText });
     }
+
+    function startAutoSpin() {
+      rows.forEach(({ slots, acronym }) => {
+        const spin = () => {
+          const interval = setInterval(() => {
+            slots.forEach(slot => {
+              slot.textContent = letters[Math.floor(Math.random() * letters.length)];
+            });
+          }, 100);
+
+          setTimeout(() => {
+            clearInterval(interval);
+            slots[0].textContent = 'D';
+            slots[1].textContent = 'O';
+            slots[2].textContent = 'M';
+            slots[3].textContent = 'G';
+            acronym.textContent = acronyms[Math.floor(Math.random() * acronyms.length)];
+            setTimeout(spin, 1000);
+          }, 3000);
+        };
+
+        spin();
+      });
+    }
+
+    startAutoSpin();
   </script>
-  <script type="module" src="script.js"></script>
 
 </body>
 </html>
