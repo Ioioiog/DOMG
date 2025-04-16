@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DOMG Slot Card</title>
+  <title>DOMG Beat Sync</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <style>
@@ -26,36 +26,16 @@
       padding: 40px 30px;
       width: 350px;
       text-align: center;
-      animation: fadeInCard 1s ease-out forwards;
-      transform: scale(0.95);
-      opacity: 0;
       position: relative;
     }
 
-    @keyframes fadeInCard {
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+    .card h1 {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 3.5rem;
+      color: #f9a825;
+      margin-bottom: 10px;
+      transition: transform 0.1s ease;
     }
-
-  .card h1 {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 3.5rem; /* Bigger */
-  color: #f9a825;
-  margin-bottom: 10px;
-  animation: beat 1s infinite ease-in-out;
-  transform-origin: center;
-}
-
-@keyframes beat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
 
     .card h2 {
       font-weight: 300;
@@ -142,7 +122,7 @@
 <body>
 
   <div class="card">
-    <h1>DOMG</h1>
+    <h1 id="domgTitle">DOMG</h1>
     <h2>Do Music for Good</h2>
 
     <div class="slot-row" id="slot-row"></div>
@@ -155,7 +135,10 @@
     </div>
   </div>
 
+  <audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_1647d4e1e5.mp3" controls autoplay loop style="margin-top:20px;"></audio>
+
   <script>
+    // Slot logic
     const acronymText = document.getElementById('acronym');
     const slotRow = document.getElementById('slot-row');
     const targetLetters = ['D', 'O', 'M', 'G'];
@@ -231,12 +214,48 @@
       });
     }
 
+    // Music reactive animation
+    const title = document.getElementById('domgTitle');
+    const audio = document.getElementById('music');
+
+    const context = new AudioContext();
+    const src = context.createMediaElementSource(audio);
+    const analyser = context.createAnalyser();
+    src.connect(analyser);
+    analyser.connect(context.destination);
+    analyser.fftSize = 256;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      analyser.getByteFrequencyData(dataArray);
+
+      let sum = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        sum += dataArray[i];
+      }
+      const volume = sum / bufferLength;
+      const scale = 1 + (volume / 256) * 0.5; // subtle scale from 1 to ~1.5
+
+      title.style.transform = `scale(${scale.toFixed(2)})`;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initSlots();
       spinAll();
       setInterval(spinAll, 7000);
+
+      // Unlock audio context on user interaction
+      document.body.addEventListener('click', () => {
+        if (context.state !== 'running') {
+          context.resume().then(() => {
+            animate(); // Start animation on first user interaction
+          });
+        }
+      });
     });
   </script>
-
 </body>
 </html>
