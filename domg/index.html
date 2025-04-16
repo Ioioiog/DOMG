@@ -18,8 +18,14 @@
     }
     header {
       text-align: center;
-      padding: 60px 20px;
-      background: #111;
+      padding: 100px 20px 60px;
+      background: linear-gradient(135deg, #1a1a1a, #111);
+      position: relative;
+      overflow: hidden;
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
     }
     header h1 {
       font-family: 'Roboto Mono', monospace;
@@ -30,6 +36,33 @@
       font-weight: 300;
       color: #ccc;
       margin-top: 10px;
+    }
+    .header-visual {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      opacity: 0.15;
+      z-index: 1;
+    }
+    #soundwave {
+      width: 100%;
+      height: 100%;
+    }
+    #soundwave path {
+      animation: wave 4s linear infinite alternate;
+    }
+    @keyframes wave {
+      0% {
+        d: path("M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15");
+      }
+      50% {
+        d: path("M0 15 Q 5 30, 10 15 T 20 15 Q 25 0, 30 15 T 40 15 Q 45 30, 50 15 T 60 15 Q 65 0, 70 15 T 80 15 Q 85 30, 90 15 T 100 15");
+      }
+      100% {
+        d: path("M0 15 Q 5 10, 10 15 T 20 15 Q 25 20, 30 15 T 40 15 Q 45 10, 50 15 T 60 15 Q 65 20, 70 15 T 80 15 Q 85 10, 90 15 T 100 15");
+      }
     }
     section {
       max-width: 800px;
@@ -103,38 +136,20 @@
 <body>
 
   <header>
-    <h1>DOMG</h1>
-    <h2>Do Music for Good — Where Every Note Has a Name</h2>
+    <div class="header-content">
+      <h1>DOMG</h1>
+      <h2>Do Music for Good — Where Every Note Has a Name</h2>
+    </div>
+    <div class="header-visual">
+      <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
+        <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" stroke="#f9a825" fill="none" stroke-width="1.5" />
+      </svg>
+    </div>
   </header>
 
   <section id="slots-section"></section>
 
-  <section>
-    <h3>1. The Idea</h3>
-    <p>Imagine giving someone a melody made just for them. Or launching your brand with a sound no one else has. At DOMG, we turn your story, your message, or your someone into original music.</p>
-
-    <h3>2. The Offering</h3>
-    <p>You tell us who it’s for, what they love, what they mean to you—or what your business stands for. We take your words, your vibe, your feeling—and transform it into music. A song. A soundtrack. A sonic experience.</p>
-
-    <h3>3. The Magic</h3>
-    <p>Whether it’s a birthday gift, a wedding moment, a campaign theme, or a brand anthem—this is music with a mission: To make someone feel seen. To make your message unforgettable.</p>
-
-    <h3>4. The Process</h3>
-    <ul>
-      <li>You give us the details.</li>
-      <li>We craft your melody.</li>
-      <li>You get a custom song, delivered with heart, ready to share.</li>
-    </ul>
-
-    <h3>5. The Why</h3>
-    <p>Because music is one of the most personal gifts you can give. And in the world of business, it’s the emotion behind the message that makes people remember.</p>
-
-    <p><strong>This is music with meaning. This is DOMG.</strong></p>
-  </section>
-
-  <footer>
-    &copy; <span id="year"></span> DOMG. All rights reserved.
-  </footer>
+  <footer>&copy; <span id="year"></span> DOMG. All rights reserved.</footer>
 
   <script>
     const acronyms = [
@@ -166,6 +181,7 @@
     const slotHeight = 80;
 
     const section = document.getElementById('slots-section');
+
     const rows = [];
 
     function getRandomChar() {
