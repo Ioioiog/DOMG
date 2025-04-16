@@ -16,20 +16,20 @@
       align-items: center;
       height: 100vh;
       color: #fff;
+      flex-direction: column;
     }
 
     .card {
       background: linear-gradient(135deg, #1a1a1a, #111);
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(249, 168, 37, 0.25);
-      padding: 40px 30px 30px;
+      padding: 40px 30px;
       width: 350px;
       text-align: center;
       animation: fadeInCard 1s ease-out forwards;
       transform: scale(0.95);
       opacity: 0;
       position: relative;
-      overflow: hidden;
     }
 
     @keyframes fadeInCard {
@@ -39,12 +39,23 @@
       }
     }
 
-    .card h1 {
-      font-family: 'Roboto Mono', monospace;
-      font-size: 2.5rem;
-      color: #f9a825;
-      margin-bottom: 10px;
-    }
+  .card h1 {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 3.5rem; /* Bigger */
+  color: #f9a825;
+  margin-bottom: 10px;
+  animation: beat 1s infinite ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes beat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
 
     .card h2 {
       font-weight: 300;
@@ -100,13 +111,10 @@
     }
 
     .header-visual {
-      position: absolute;
-      bottom: 0;
-      left: 0;
       width: 100%;
-      height: 40px;
-      opacity: 0.2;
-      z-index: 0;
+      height: 100px;
+      margin-top: 20px;
+      opacity: 0.25;
     }
 
     #soundwave {
@@ -136,14 +144,13 @@
   <div class="card">
     <h1>DOMG</h1>
     <h2>Do Music for Good</h2>
+
     <div class="slot-row" id="slot-row"></div>
     <div class="acronym" id="acronym"></div>
 
-    <!-- 🎵 Soundwave Animation -->
     <div class="header-visual">
       <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
-        <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" 
-              stroke="#f9a825" fill="none" stroke-width="1.5" />
+        <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" stroke="#f9a825" fill="none" stroke-width="1.5" />
       </svg>
     </div>
   </div>
