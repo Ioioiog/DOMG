@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DOMG Beat Sync</title>
+  <title>DOMG – Beat Sync</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <style>
@@ -135,7 +135,8 @@
     </div>
   </div>
 
-  <audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_1647d4e1e5.mp3" controls autoplay loop style="margin-top:20px;"></audio>
+  <!-- 🎵 Embed music -->
+  <audio id="music" src="audio/domg-beat.mp3" autoplay loop controls style="margin-top:20px;"></audio>
 
   <script>
     // Slot logic
@@ -214,7 +215,7 @@
       });
     }
 
-    // Music reactive animation
+    // Music volume animation
     const title = document.getElementById('domgTitle');
     const audio = document.getElementById('music');
 
@@ -228,8 +229,8 @@
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    function animate() {
-      requestAnimationFrame(animate);
+    function animateBeat() {
+      requestAnimationFrame(animateBeat);
       analyser.getByteFrequencyData(dataArray);
 
       let sum = 0;
@@ -237,7 +238,7 @@
         sum += dataArray[i];
       }
       const volume = sum / bufferLength;
-      const scale = 1 + (volume / 256) * 0.5; // subtle scale from 1 to ~1.5
+      const scale = 1 + (volume / 256) * 0.5;
 
       title.style.transform = `scale(${scale.toFixed(2)})`;
     }
@@ -247,11 +248,10 @@
       spinAll();
       setInterval(spinAll, 7000);
 
-      // Unlock audio context on user interaction
       document.body.addEventListener('click', () => {
         if (context.state !== 'running') {
           context.resume().then(() => {
-            animate(); // Start animation on first user interaction
+            animateBeat();
           });
         }
       });
