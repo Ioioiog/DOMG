@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DOMG – Do Music for Good</title>
+  <title>DOMG Card Animation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -11,168 +11,104 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      padding: 0;
       background: #0a0a0a;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       color: #fff;
-      line-height: 1.7;
     }
-    header {
-      text-align: center;
-      padding: 100px 20px 60px;
+
+    .card {
       background: linear-gradient(135deg, #1a1a1a, #111);
-      position: relative;
-      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(249, 168, 37, 0.25);
+      padding: 40px 30px;
+      width: 350px;
+      text-align: center;
+      animation: fadeInCard 1s ease-out forwards;
+      transform: scale(0.95);
+      opacity: 0;
     }
-    .header-content {
-      position: relative;
-      z-index: 2;
+
+    @keyframes fadeInCard {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
-    header h1 {
+
+    .card h1 {
       font-family: 'Roboto Mono', monospace;
-      font-size: 3rem;
-      color: #f9a825;
-    }
-    header h2 {
-      font-weight: 300;
-      color: #ccc;
-      margin-top: 10px;
-    }
-    .header-visual {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 50px;
-      opacity: 0.15;
-      z-index: 1;
-    }
-    #soundwave {
-      width: 100%;
-      height: 100%;
-    }
-    #soundwave path {
-      animation: wave 4s linear infinite alternate;
-    }
-    @keyframes wave {
-      0% {
-        d: path("M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15");
-      }
-      50% {
-        d: path("M0 15 Q 5 30, 10 15 T 20 15 Q 25 0, 30 15 T 40 15 Q 45 30, 50 15 T 60 15 Q 65 0, 70 15 T 80 15 Q 85 30, 90 15 T 100 15");
-      }
-      100% {
-        d: path("M0 15 Q 5 10, 10 15 T 20 15 Q 25 20, 30 15 T 40 15 Q 45 10, 50 15 T 60 15 Q 65 20, 70 15 T 80 15 Q 85 10, 90 15 T 100 15");
-      }
-    }
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    section h3 {
-      font-size: 1.5rem;
+      font-size: 2.5rem;
       color: #f9a825;
       margin-bottom: 10px;
     }
-    section p, section ul {
+
+    .card h2 {
+      font-weight: 300;
+      color: #ccc;
       font-size: 1rem;
-      color: #ddd;
       margin-bottom: 20px;
     }
-    ul li {
-      margin-left: 20px;
-      list-style: disc;
-    }
-    .slot-row-wrapper {
-      margin: 40px 0;
-      text-align: center;
-    }
+
     .slot-row {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
+
     .slot {
-      width: 60px;
-      height: 80px;
-      overflow: hidden;
+      width: 50px;
+      height: 70px;
       background: #222;
       border: 2px solid #444;
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-family: 'Roboto Mono', monospace;
       font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       position: relative;
+      border-radius: 8px;
     }
+
     .slot-reel {
       display: flex;
       flex-direction: column;
     }
+
     .slot-reel span {
-      height: 80px;
-      line-height: 80px;
+      height: 70px;
+      line-height: 70px;
       text-align: center;
     }
+
     .acronym {
+      font-size: 0.85rem;
       color: #aaa;
-      font-size: 1rem;
-      height: 1.2em;
+      opacity: 0;
       transition: opacity 0.5s ease;
+      min-height: 1.2em;
     }
+
     .acronym.visible {
       opacity: 1;
-    }
-    footer {
-      text-align: center;
-      color: #666;
-      font-size: 0.9rem;
-      padding: 40px 0;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-content">
-      <h1>DOMG</h1>
-      <h2>Do Music for Good — Where Every Note Has a Name</h2>
-    </div>
-    <div class="header-visual">
-      <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
-        <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" stroke="#f9a825" fill="none" stroke-width="1.5" />
-      </svg>
-    </div>
-  </header>
-
-  <section id="slots-section"></section>
-
-      <section class="content-section" id="about">
-      <h3>1. The Idea</h3>
-      <p>Imagine giving someone a melody made just for them. Or launching your brand with a sound no one else has. At DOMG, we turn your story, your message, or your someone into original music.</p>
-
-      <h3>2. The Offering</h3>
-      <p>You tell us who it’s for, what they love, what they mean to you—or what your business stands for. We take your words, your vibe, your feeling—and transform it into music. A song. A soundtrack. A sonic experience.</p>
-
-      <h3>3. The Magic</h3>
-      <p>Whether it’s a birthday gift, a wedding moment, a campaign theme, or a brand anthem—this is music with a mission: To make someone feel seen. To make your message unforgettable.</p>
-
-      <h3>4. The Process</h3>
-      <ul>
-        <li><span class="step-icon">→</span> You give us the details.</li>
-        <li><span class="step-icon">♫</span> We craft your melody.</li>
-        <li><span class="step-icon">✓</span> You get a custom song, delivered with heart, ready to share.</li>
-      </ul>
-
-      <h3>5. The Why</h3>
-      <p>Because music is one of the most personal gifts you can give. And in the world of business, it’s the emotion behind the message that makes people remember.</p>
-
-      <p class="emphasis"><strong>This is music with meaning. This is DOMG.</strong></p>
-    </section>
-  </main>
-
+  <div class="card">
+    <h1>DOMG</h1>
+    <h2>Do Music for Good</h2>
+    <div class="slot-row" id="slot-row"></div>
+    <div class="acronym" id="acronym"></div>
+  </div>
 
   <script>
     const acronyms = [
@@ -199,99 +135,77 @@
     ];
 
     const targetLetters = ['D', 'O', 'M', 'G'];
-    const rowCount = 4;
     const reelLength = 10;
-    const slotHeight = 80;
+    const slotHeight = 70;
 
-    const section = document.getElementById('slots-section');
-
-    const rows = [];
+    const slotRow = document.getElementById('slot-row');
+    const acronymText = document.getElementById('acronym');
+    const slotElements = [];
 
     function getRandomChar() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       return chars[Math.floor(Math.random() * chars.length)];
     }
 
-    function createReel(targetLetter) {
+    function createReel(letter) {
       const reel = document.createElement('div');
       reel.className = 'slot-reel';
+
       for (let i = 0; i < reelLength; i++) {
         const span = document.createElement('span');
         span.textContent = getRandomChar();
         reel.appendChild(span);
       }
+
       const targetSpan = document.createElement('span');
-      targetSpan.textContent = targetLetter;
+      targetSpan.textContent = letter;
       reel.appendChild(targetSpan);
       return reel;
     }
 
-    function spinReel(reel, index, rowIndex) {
+    function spinReel(reel, index) {
       const totalSteps = reelLength + 1;
       anime({
         targets: reel,
         translateY: [0, -totalSteps * slotHeight],
-        duration: 6000 + index * 600 + rowIndex * 500,
+        duration: 3000 + index * 500,
         easing: 'easeInOutQuad'
       });
     }
 
-    function spinRow(row) {
-      const { slots, acronym } = row;
-      acronym.classList.remove('visible');
-      acronym.textContent = '';
+    function spinAll() {
+      acronymText.classList.remove('visible');
+      acronymText.textContent = '';
 
-      slots.forEach((slotObj, i) => {
-        const { reel } = slotObj;
-        reel.style.transform = 'translateY(0)';
-        spinReel(reel, i, row.index);
+      slotElements.forEach((slotObj, index) => {
+        slotObj.reel.style.transform = 'translateY(0)';
+        spinReel(slotObj.reel, index);
       });
 
       setTimeout(() => {
         const random = acronyms[Math.floor(Math.random() * acronyms.length)];
-        acronym.textContent = random;
-        acronym.classList.add('visible');
-
-        setTimeout(() => spinRow(row), 4000);
-      }, 2500 + slots.length * 300);
+        acronymText.textContent = random;
+        acronymText.classList.add('visible');
+      }, 2000);
     }
-    
-    function createRows() {
-      for (let r = 0; r < rowCount; r++) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'slot-row-wrapper';
 
-        const row = document.createElement('div');
-        row.className = 'slot-row';
+    function initSlots() {
+      targetLetters.forEach(letter => {
+        const slot = document.createElement('div');
+        slot.className = 'slot';
 
-        const acronym = document.createElement('div');
-        acronym.className = 'acronym';
+        const reel = createReel(letter);
+        slot.appendChild(reel);
 
-        const slotElements = [];
-
-        for (let l = 0; l < targetLetters.length; l++) {
-          const slot = document.createElement('div');
-          slot.className = 'slot';
-
-          const reel = createReel(targetLetters[l]);
-          slot.appendChild(reel);
-
-          slotElements.push({ reel });
-          row.appendChild(slot);
-        }
-
-        wrapper.appendChild(row);
-        wrapper.appendChild(acronym);
-        section.appendChild(wrapper);
-
-        rows.push({ slots: slotElements, acronym, index: r });
-      }
+        slotElements.push({ reel });
+        slotRow.appendChild(slot);
+      });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      createRows();
-      rows.forEach(row => spinRow(row));
-      document.getElementById('year').textContent = new Date().getFullYear();
+      initSlots();
+      spinAll();
+      setInterval(spinAll, 7000);
     });
   </script>
 
