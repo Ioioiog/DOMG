@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DOMG – Do Music for Good</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script> 
   <style>
     * {
       margin: 0;
@@ -11,193 +15,528 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --background-color: #0a0a0a;
+      --text-color: #e0e0e0;
+      --primary-color: #f9a825; /* Amber/Gold */
+      --secondary-color: #222;
+      --border-color: #444;
+      --header-bg: linear-gradient(135deg, #1a1a1a, #111);
+      --slot-bg: #181818;
+      --slot-border: #333;
+      --font-primary: 'Poppins', sans-serif;
+      --font-secondary: 'Roboto Mono', monospace;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Helvetica Neue', sans-serif;
-      background: #0d0d0d;
-      color: #fff;
-      line-height: 1.6;
+      font-family: var(--font-primary);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.7;
+      overflow-x: hidden; /* Prevent horizontal scroll */
     }
 
     header {
-      padding: 80px 20px 40px;
+      padding: 100px 20px 60px;
       text-align: center;
-      background: linear-gradient(135deg, #1a1a1a, #333);
+      background: var(--header-bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
     }
 
     header h1 {
-      font-size: 2.8rem;
+      font-family: var(--font-secondary);
+      font-size: clamp(3rem, 10vw, 6rem); /* Responsive font size */
       margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--primary-color);
+      letter-spacing: 2px;
     }
 
-    header h2 {
-      font-size: 1.2rem;
+    .subtitle-container {
+      font-size: clamp(1rem, 3vw, 1.4rem);
       font-weight: 300;
       color: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap; /* Allow wrapping on small screens */
+      gap: 0.5em; /* Spacing between parts */
+    }
+
+    .subtitle-prefix {
+        opacity: 0.8;
+    }
+
+    .subtitle-separator {
+        color: var(--primary-color);
+        opacity: 0.6;
+        font-weight: bold;
+    }
+
+    #dynamic-subtitle {
+      font-style: italic;
+      min-height: 1.5em; /* Prevent layout shift */
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .header-visual {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px; /* Adjust height as needed */
+        opacity: 0.15;
+        z-index: 1;
+    }
+
+    #soundwave {
+        width: 100%;
+        height: 100%;
+    }
+
+    #soundwave path {
+      animation: wave 4s linear infinite alternate;
+    }
+
+    @keyframes wave {
+      0% {
+        d: path("M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15");
+      }
+      50% {
+         d: path("M0 15 Q 5 30, 10 15 T 20 15 Q 25 0, 30 15 T 40 15 Q 45 30, 50 15 T 60 15 Q 65 0, 70 15 T 80 15 Q 85 30, 90 15 T 100 15");
+      }
+      100% {
+        d: path("M0 15 Q 5 10, 10 15 T 20 15 Q 25 20, 30 15 T 40 15 Q 45 10, 50 15 T 60 15 Q 65 20, 70 15 T 80 15 Q 85 10, 90 15 T 100 15");
+      }
+    }
+
+
+    main {
+        padding: 0 20px;
     }
 
     section {
-      padding: 60px 20px;
+      padding: 60px 0; /* Adjusted padding */
       max-width: 800px;
       margin: 0 auto;
     }
 
-    section h3 {
-      font-size: 1.6rem;
-      margin-bottom: 15px;
-      color: #f9a825;
+    section#slots-section {
+        padding-top: 80px;
+        padding-bottom: 40px;
+        text-align: center;
     }
 
-    section p, li {
+    section#slots-section h2 {
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
+        margin-bottom: 40px;
+        color: #ccc;
+        font-weight: 400;
+    }
+
+    .content-section h3 {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
       margin-bottom: 20px;
+      color: var(--primary-color);
+      font-weight: 600;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+      display: inline-block; /* Make border only as wide as text */
+    }
+
+    .content-section p, .content-section li {
+      margin-bottom: 20px;
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+
+    .content-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .content-section li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .step-icon {
+        color: var(--primary-color);
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .emphasis {
+        font-size: 1.1em;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .emphasis strong {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+
+    .slot-row-wrapper {
+        margin-bottom: 30px; /* Space between row and acronym */
+        perspective: 1000px; /* For 3D effects if needed */
     }
 
     .slot-row {
       display: flex;
       justify-content: center;
-      margin: 20px 0;
-      font-size: 3rem;
+      gap: 10px; /* Use gap for spacing */
+      margin-bottom: 15px;
     }
 
     .slot {
-      width: 60px;
-      height: 60px;
-      background: #222;
-      border: 2px solid #555;
-      margin: 0 5px;
+      font-family: var(--font-secondary);
+      width: clamp(50px, 12vw, 80px); /* Responsive width */
+      height: clamp(70px, 15vw, 100px); /* Responsive height */
+      background: var(--slot-bg);
+      border: 2px solid var(--slot-border);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: clamp(2rem, 8vw, 3.5rem); /* Responsive font size */
+      font-weight: 700;
+      color: #eee;
+      overflow: hidden; /* Hide overflowing reel content */
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .slot-reel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .slot-reel > span {
+        display: block; /* Each letter takes full width */
+        height: clamp(70px, 15vw, 100px); /* Match slot height */
+        line-height: clamp(70px, 15vw, 100px); /* Vertically center text */
+        text-align: center;
     }
 
     .acronym {
       text-align: center;
-      font-size: 1rem;
-      margin-bottom: 30px;
-      color: #ccc;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      font-weight: 400;
+      color: #bbb;
+      min-height: 1.5em; /* Prevent layout shift */
+      padding: 0 10px; /* Prevent text touching edges on small screens */
+      opacity: 0; /* Start hidden, fade in */
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .acronym.visible {
+        opacity: 1;
     }
 
     footer {
       text-align: center;
       padding: 40px 20px;
+      margin-top: 60px;
       font-size: 0.9rem;
       color: #aaa;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      #soundwave path {
+        animation: none;
+      }
+      .slot-reel {
+        transition: none !important; /* Disable JS animation transitions */
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>DOMG – Do Music for Good</h1>
-    <h2>Where Every Note Has a Name.</h2>
+    <div class="header-content">
+      <h1>DOMG</h1>
+      <div class="subtitle-container">
+         <span class="subtitle-prefix">Do Music for Good</span>
+         <span class="subtitle-separator">//</span>
+         <span id="dynamic-subtitle">Where Every Note Has a Name.</span>
+      </div>
+    </div>
+    <div class="header-visual">
+       <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
+         <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" stroke="#f9a825" fill="none" stroke-width="1.5" />
+       </svg>
+    </div>
   </header>
 
-  <!-- Slot Rows -->
-  <section id="slots-section" class="center">
-    <!-- JavaScript will inject 4 rows of slots and acronyms -->
-  </section>
+  <main>
+    <!-- Slot Rows -->
+    <section id="slots-section">
+      <h2>What does DOMG mean?</h2>
+      <!-- JavaScript will inject 4 rows of slots and acronyms -->
+    </section>
 
-  <section>
-    <h3>1. The Idea</h3>
-    <p>Imagine giving someone a melody made just for them. Or launching your brand with a sound no one else has. At DOMG, we turn your story, your message, or your someone into original music.</p>
+    <section class="content-section" id="about">
+      <h3>1. The Idea</h3>
+      <p>Imagine giving someone a melody made just for them. Or launching your brand with a sound no one else has. At DOMG, we turn your story, your message, or your someone into original music.</p>
 
-    <h3>2. The Offering</h3>
-    <p>You tell us who it’s for, what they love, what they mean to you—or what your business stands for. We take your words, your vibe, your feeling—and transform it into music. A song. A soundtrack. A sonic experience.</p>
+      <h3>2. The Offering</h3>
+      <p>You tell us who it’s for, what they love, what they mean to you—or what your business stands for. We take your words, your vibe, your feeling—and transform it into music. A song. A soundtrack. A sonic experience.</p>
 
-    <h3>3. The Magic</h3>
-    <p>Whether it’s a birthday gift, a wedding moment, a campaign theme, or a brand anthem—this is music with a mission: To make someone feel seen. To make your message unforgettable.</p>
+      <h3>3. The Magic</h3>
+      <p>Whether it’s a birthday gift, a wedding moment, a campaign theme, or a brand anthem—this is music with a mission: To make someone feel seen. To make your message unforgettable.</p>
 
-    <h3>4. The Process</h3>
-    <ul>
-      <li>You give us the details.</li>
-      <li>We craft your melody.</li>
-      <li>You get a custom song, delivered with heart, ready to share.</li>
-    </ul>
+      <h3>4. The Process</h3>
+      <ul>
+        <li><span class="step-icon">→</span> You give us the details.</li>
+        <li><span class="step-icon">♫</span> We craft your melody.</li>
+        <li><span class="step-icon">✓</span> You get a custom song, delivered with heart, ready to share.</li>
+      </ul>
 
-    <h3>5. The Why</h3>
-    <p>Because music is one of the most personal gifts you can give. And in the world of business, it’s the emotion behind the message that makes people remember.</p>
+      <h3>5. The Why</h3>
+      <p>Because music is one of the most personal gifts you can give. And in the world of business, it’s the emotion behind the message that makes people remember.</p>
 
-    <p><strong>This is music with meaning. This is DOMG.</strong></p>
-  </section>
+      <p class="emphasis"><strong>This is music with meaning. This is DOMG.</strong></p>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2025 DOMG – Do Music for Good. All rights reserved.
+    <p>&copy; <span id="year"></span> DOMG – Do Music for Good. All rights reserved.</p>
   </footer>
 
   <script>
     const acronyms = [
-      "Doing Outstanding Music for Good",
-      "Dare to Overcome with Music and Grace",
-      "Drive Original Melodies for Growth",
-      "Drop Over Mediocrity, Go beyond",
-      "Dedicated to Opening Minds with Groove",
-      "Defining Our Mission through Genres",
-      "Deep Organic Music Gives",
-      "Drive Opportunity through Music and Giving",
-      "Drop Of Music, Galaxy of meaning",
-      "Do Only Meaningful Grooves",
-      "Dream Of Music Globalized",
-      "Different Outlooks, Mutual Goal",
-      "Design Our Melody for Goodness",
-      "Dare Others with Music Generosity",
-      "Do Our Magic Globally",
-      "Deliver On Music’s Gift",
-      "Dreamers Opening Minds through Groove",
-      "Drop Old Models, Grow new",
-      "Defend Originality, Make Good",
-      "Dedicated Organizers of Music and Goodwill"
+        "Doing Outstanding Music for Good",
+        "Dare to Overcome with Music and Grace",
+        "Drive Original Melodies for Growth",
+        "Drop Over Mediocrity, Go beyond",
+        "Dedicated to Opening Minds with Groove",
+        "Defining Our Mission through Genres",
+        "Deep Organic Music Gives",
+        "Drive Opportunity through Music and Giving",
+        "Drop Of Music, Galaxy of meaning",
+        "Do Only Meaningful Grooves",
+        "Dream Of Music Globalized",
+        "Different Outlooks, Mutual Goal",
+        "Design Our Melody for Goodness",
+        "Dare Others with Music Generosity",
+        "Do Our Magic Globally",
+        "Deliver On Music’s Gift",
+        "Dreamers Opening Minds through Groove",
+        "Drop Old Models, Grow new",
+        "Defend Originality, Make Good",
+        "Dedicated Organizers of Music and Goodwill"
     ];
 
-    const letters = ['D', 'O', 'M', 'G'];
+    const subtitles = [
+        "Where Every Note Has a Name.",
+        "Crafting Your Unique Sound.",
+        "Music Tailored to Your Story.",
+        "The Soundtrack to Your Life.",
+        "Original Melodies, Meaningful Moments."
+    ];
+
+    const targetLetters = ['D', 'O', 'M', 'G'];
     const slotsSection = document.getElementById('slots-section');
-    const rowCount = 4;
+    const dynamicSubtitle = document.getElementById('dynamic-subtitle');
+    const rowCount = 4; // Number of slot rows
     const rows = [];
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ?!#$&';
+    const reelLength = 20; // Number of characters in each reel before the target letter
 
-    for (let i = 0; i < rowCount; i++) {
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'slot-row';
-      const acronymText = document.createElement('div');
-      acronymText.className = 'acronym';
-      acronymText.id = `acronym-${i}`;
-      const slotElements = [];
+    let slotHeight = 100; // Default fallback, will be calculated
 
-      for (let j = 0; j < 4; j++) {
-        const slot = document.createElement('div');
-        slot.className = 'slot';
-        slot.textContent = letters[j];
-        rowDiv.appendChild(slot);
-        slotElements.push(slot);
-      }
-
-      slotsSection.appendChild(rowDiv);
-      slotsSection.appendChild(acronymText);
-      rows.push({ slots: slotElements, acronym: acronymText });
+    function getRandomChar() {
+        return chars[Math.floor(Math.random() * chars.length)];
     }
 
-    function startAutoSpin() {
-      rows.forEach(({ slots, acronym }) => {
-        const spin = () => {
-          const interval = setInterval(() => {
-            slots.forEach(slot => {
-              slot.textContent = letters[Math.floor(Math.random() * letters.length)];
+    function generateReel(targetLetter) {
+        const reel = document.createElement('div');
+        reel.className = 'slot-reel';
+        for (let i = 0; i < reelLength; i++) {
+            const span = document.createElement('span');
+            span.textContent = getRandomChar();
+            reel.appendChild(span);
+        }
+        const targetSpan = document.createElement('span');
+        targetSpan.textContent = targetLetter;
+        reel.appendChild(targetSpan);
+
+        reel.style.transform = `translateY(0px)`;
+
+        return reel;
+    }
+
+    function initializeSlots() {
+        for (let i = 0; i < rowCount; i++) {
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = 'slot-row-wrapper';
+
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'slot-row';
+
+            const acronymText = document.createElement('div');
+            acronymText.className = 'acronym';
+            acronymText.id = `acronym-${i}`;
+
+            const slotElements = [];
+
+            for (let j = 0; j < targetLetters.length; j++) {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                const reel = generateReel(targetLetters[j]);
+                slot.appendChild(reel);
+                rowDiv.appendChild(slot);
+                slotElements.push({ slot, reel });
+            }
+
+            wrapperDiv.appendChild(rowDiv);
+            wrapperDiv.appendChild(acronymText);
+            slotsSection.appendChild(wrapperDiv);
+            rows.push({ slots: slotElements, acronymElement: acronymText });
+        }
+
+        requestAnimationFrame(() => {
+            const firstReelSpan = rows[0]?.slots[0]?.reel?.querySelector('span');
+            if (firstReelSpan) {
+                slotHeight = firstReelSpan.getBoundingClientRect().height;
+                console.log("Detected slot height:", slotHeight);
+
+                rows.forEach(row => {
+                    row.slots.forEach(({ reel }) => {
+                        const randomOffset = Math.floor(Math.random() * reelLength);
+                        const initialY = Math.max(0, Math.min(randomOffset * slotHeight, (reelLength) * slotHeight));
+                        reel.style.transform = `translateY(-${initialY}px)`;
+                    });
+                });
+
+                startSpinning();
+
+            } else {
+                console.error("Could not determine slot height. Using default:", slotHeight);
+                startSpinning();
+            }
+        });
+    }
+
+    function spinRow(rowIndex) {
+        if (slotHeight <= 0) {
+            console.error("Cannot spin row, slot height is invalid:", slotHeight);
+            return;
+        }
+        const row = rows[rowIndex];
+        const { slots, acronymElement } = row;
+
+        acronymElement.classList.remove('visible');
+        requestAnimationFrame(() => {
+           acronymElement.textContent = '';
+        });
+
+        slots.forEach(({ reel }, slotIndex) => {
+            const targetPosition = reelLength * slotHeight;
+            const spinCycles = 3;
+
+            const currentTransform = reel.style.transform || `translateY(0px)`;
+            const currentY = parseFloat(currentTransform.replace(/translateY\((.*?)px\)/, '$1')) || 0;
+
+            const totalReelHeight = (reelLength + 1) * slotHeight;
+            let endY = -targetPosition;
+
+            const requiredSpinDistance = spinCycles * totalReelHeight;
+            const minimumEndY = currentY - requiredSpinDistance;
+
+            while (endY > minimumEndY) {
+                endY -= totalReelHeight;
+            }
+
+            anime.remove(reel);
+
+            anime({
+                targets: reel,
+                translateY: [currentY, endY],
+                duration: 2500 + slotIndex * 200 + rowIndex * 100,
+                easing: 'cubicBezier(0.33, 1, 0.68, 1)',
+                complete: () => {
+                    const finalPosition = -targetPosition;
+                    reel.style.transform = `translateY(${finalPosition}px)`;
+
+                    if (slotIndex === slots.length - 1) {
+                        const randomAcronym = acronyms[Math.floor(Math.random() * acronyms.length)];
+                        acronymElement.textContent = randomAcronym;
+                        acronymElement.classList.add('visible');
+
+                        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        if (!prefersReducedMotion) {
+                            setTimeout(() => spinRow(rowIndex), 3000 + Math.random() * 2000);
+                        }
+                    }
+                }
             });
-          }, 100);
-
-          setTimeout(() => {
-            clearInterval(interval);
-            slots[0].textContent = 'D';
-            slots[1].textContent = 'O';
-            slots[2].textContent = 'M';
-            slots[3].textContent = 'G';
-            acronym.textContent = acronyms[Math.floor(Math.random() * acronyms.length)];
-            setTimeout(spin, 1000);
-          }, 3000);
-        };
-
-        spin();
-      });
+        });
     }
 
-    startAutoSpin();
+    function startSpinning() {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        rows.forEach((row, index) => {
+             if (prefersReducedMotion) {
+                row.slots.forEach(({ reel }) => {
+                    const targetPosition = reelLength * slotHeight;
+                    reel.style.transform = `translateY(-${targetPosition}px)`;
+                });
+                const randomAcronym = acronyms[Math.floor(Math.random() * acronyms.length)];
+                row.acronymElement.textContent = randomAcronym;
+                row.acronymElement.classList.add('visible');
+            } else {
+                setTimeout(() => spinRow(index), index * 500);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeSlots();
+
+        let subtitleIndex = 0;
+        const dynamicSubtitleElement = document.getElementById('dynamic-subtitle');
+        if (dynamicSubtitleElement) {
+             function updateSubtitle() {
+                dynamicSubtitleElement.style.opacity = 0;
+                setTimeout(() => {
+                    subtitleIndex = (subtitleIndex + 1) % subtitles.length;
+                    dynamicSubtitleElement.textContent = subtitles[subtitleIndex];
+                    dynamicSubtitleElement.style.opacity = 1;
+                }, 500); 
+            }
+            setInterval(updateSubtitle, 5000); 
+
+        } else {
+            console.error("Dynamic subtitle element not found");
+        }
+
+        const yearElement = document.getElementById('year');
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        } else {
+            console.error("Year element not found");
+        }
+    });
   </script>
 
 </body>
