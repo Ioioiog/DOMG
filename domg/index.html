@@ -7,17 +7,211 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <script type="importmap">
         {
             "imports": {
                 "tone": "https://cdn.skypack.dev/tone"
             }
         }
-    
-      
     </script>
-  
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #121212, #2d2d2d);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(25, 25, 25, 0.8);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 0 30px rgba(255, 230, 0, 0.15),
+                        0 0 15px rgba(255, 230, 0, 0.1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 5rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+            transition: transform 0.1s ease;
+            animation: heartbeat 1.2s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.08); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.05); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .soundwave {
+            width: 100%;
+            height: 80px;
+            margin: 2rem 0;
+        }
+
+        .soundwave svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .slot-machine {
+            margin: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .reels {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .reel {
+            width: 60px;
+            height: 80px;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7), 0 0 5px rgba(255, 235, 59, 0.5);
+            position: relative;
+            border: 3px solid rgba(255, 215, 0, 0.8);
+            text-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+            overflow: hidden;
+        }
+
+        .symbol {
+            font-size: 2.5rem;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 8px rgba(255, 235, 59, 0.6);
+            transition: all 0.1s ease-out;
+        }
+
+        .acronym {
+            font-size: 1.25rem;
+            color: #f0f0f0;
+            height: 24px;
+            margin-top: 1.5rem;
+            font-style: italic;
+            transition: opacity 0.5s ease;
+        }
+
+        #play-button {
+            background: rgba(255, 235, 59, 0.2);
+            color: #ffeb3b;
+            border: 2px solid rgba(255, 235, 59, 0.4);
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 2rem auto 0;
+            transition: all 0.3s ease;
+        }
+
+        #play-button:hover {
+            background: rgba(255, 235, 59, 0.3);
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.3);
+        }
+
+        #play-button svg {
+            transition: transform 0.3s ease;
+        }
+
+        #play-button:hover svg {
+            transform: translateX(3px);
+        }
+
+        .coin {
+            position: absolute;
+            font-size: 1.5rem;
+            top: -20px;
+            animation: coinFall 3s ease-in forwards;
+            z-index: 10;
+        }
+
+        @keyframes coinFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(300px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .reel {
+                width: 50px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            .acronym {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -33,9 +227,159 @@
                 <div class="acronym" id="acronym">Dreaming Of Musical Greatness</div>
             </div>
             
-
         </div>
     </div>
-    <script type="module" src="script.js"></script>
+    <script type="module">
+        import * as Tone from 'tone';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create the soundwave SVG
+            createSoundwave();
+            
+            // Initialize the DOMG display
+            initializeDOMG();
+            
+            // Set up audio
+            setupAudio();
+        });
+
+        // Create animated SVG soundwave
+        function createSoundwave() {
+            const soundwaveContainer = document.getElementById('soundwave');
+            const svgNS = "http://www.w3.org/2000/svg";
+            
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("viewBox", "0 0 800 100");
+            svg.setAttribute("preserveAspectRatio", "none");
+            
+            // Create bars for the soundwave
+            const numBars = 75;
+            const barWidth = 800 / numBars;
+            
+            for (let i = 0; i < numBars; i++) {
+                const bar = document.createElementNS(svgNS, "rect");
+                const height = Math.random() * 70 + 20;
+                
+                bar.setAttribute("x", i * barWidth);
+                bar.setAttribute("y", (100 - height) / 2);
+                bar.setAttribute("width", barWidth - 2);
+                bar.setAttribute("height", height);
+                bar.setAttribute("rx", 2);
+                bar.setAttribute("ry", 2);
+                bar.setAttribute("fill", "#ffeb3b");
+                bar.setAttribute("opacity", "0.7");
+                
+                // Add animation with increased amplitude
+                const animate = document.createElementNS(svgNS, "animate");
+                animate.setAttribute("attributeName", "height");
+                animate.setAttribute("values", `${height};${Math.random() * 80 + 10};${height}`);
+                animate.setAttribute("dur", `${Math.random() * 2 + 1}s`);
+                animate.setAttribute("repeatCount", "indefinite");
+                
+                const animateY = document.createElementNS(svgNS, "animate");
+                animateY.setAttribute("attributeName", "y");
+                animateY.setAttribute("values", `${(100 - height) / 2};${(100 - (Math.random() * 80 + 10)) / 2};${(100 - height) / 2}`);
+                animateY.setAttribute("dur", `${Math.random() * 2 + 1}s`);
+                animateY.setAttribute("repeatCount", "indefinite");
+                
+                bar.appendChild(animate);
+                bar.appendChild(animateY);
+                svg.appendChild(bar);
+            }
+            
+            soundwaveContainer.appendChild(svg);
+        }
+
+        // Initialize DOMG display with static letters
+        function initializeDOMG() {
+            // Set up acronym display that changes periodically
+            const acronymElement = document.getElementById('acronym');
+            const acronyms = [
+                "Dreaming Of Musical Greatness",
+                "Doing Outstanding Music for Good",
+                "Dare to Overcome with Music and Grace",
+                "Drive Original Melodies for Growth",
+                "Drop Over Mediocrity, Go beyond",
+                "Dedicated to Opening Minds with Groove",
+                "Defining Our Mission through Genres",
+                "Deep Organic Music Gives",
+                "Drive Opportunity through Music and Giving",
+                "Drop Of Music, Galaxy of meaning",
+                "Do Only Meaningful Grooves",
+                "Dream Of Music Globalized",
+                "Different Outlooks, Mutual Goal",
+                "Design Our Melody for Goodness",
+                "Dare Others with Music Generosity",
+                "Do Our Magic Globally",
+                "Deliver On Music's Gift",
+                "Dreamers Opening Minds through Groove",
+                "Drop Old Models, Grow new",
+                "Defend Originality, Make Good"
+            ];
+            
+            let currentAcronym = 0;
+            
+            function changeAcronym() {
+                acronymElement.style.opacity = 0;
+                setTimeout(() => {
+                    acronymElement.textContent = acronyms[currentAcronym];
+                    acronymElement.style.opacity = 1;
+                    currentAcronym = (currentAcronym + 1) % acronyms.length;
+                }, 500);
+            }
+            
+            // Change acronym every 5 seconds
+            setInterval(changeAcronym, 5000);
+        }
+
+        // Set up audio visualization
+        function setupAudio() {
+            // Create a Tone.js synth for audio effects
+            const synth = new Tone.Synth().toDestination();
+            
+            // Set up audio visualization with Tone.js analyzer
+            const analyzer = new Tone.Analyser('fft', 256);
+            synth.connect(analyzer);
+            
+            // Function to play a note when DOMG letters are highlighted
+            function playNote(note, duration = '8n') {
+                synth.triggerAttackRelease(note, duration);
+            }
+            
+            // Initial sound effect (subtle chord)
+            setTimeout(() => {
+                Tone.start();
+                
+                // Schedule notes with offset time to avoid timing conflicts
+                synth.triggerAttackRelease('C4', '16n', '+0.1');
+                synth.triggerAttackRelease('E4', '16n', '+0.25');
+                synth.triggerAttackRelease('G4', '16n', '+0.4');
+                synth.triggerAttackRelease('C5', '8n', '+0.55');
+            }, 1000);
+            
+            // Visualize function that works with Tone.js analyzer
+            function visualize() {
+                if (analyzer) {
+                    const dataArray = analyzer.getValue();
+                    
+                    // Update the soundwave bars based on audio analysis
+                    const bars = document.querySelectorAll('#soundwave svg rect');
+                    bars.forEach((bar, index) => {
+                        // Use modulo to loop through dataArray values for all bars
+                        const intensity = Math.abs(dataArray[index % dataArray.length]) / 100;
+                        const height = 15 + intensity * 85;
+                        bar.setAttribute('height', height);
+                        bar.setAttribute('y', (100 - height) / 2);
+                        bar.setAttribute('opacity', 0.4 + intensity * 0.6);
+                    });
+                    
+                    requestAnimationFrame(visualize);
+                }
+            }
+            
+            // Start visualization
+            visualize();
+        }
+    </script>
 </body>
 </html>
