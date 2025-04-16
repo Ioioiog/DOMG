@@ -3,15 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DOMG Card Animation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>DOMG Slot Card</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <style>
     body {
       margin: 0;
-      padding: 0;
       background: #0a0a0a;
       font-family: 'Poppins', sans-serif;
       display: flex;
@@ -25,12 +22,14 @@
       background: linear-gradient(135deg, #1a1a1a, #111);
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(249, 168, 37, 0.25);
-      padding: 40px 30px;
+      padding: 40px 30px 30px;
       width: 350px;
       text-align: center;
       animation: fadeInCard 1s ease-out forwards;
       transform: scale(0.95);
       opacity: 0;
+      position: relative;
+      overflow: hidden;
     }
 
     @keyframes fadeInCard {
@@ -99,6 +98,37 @@
     .acronym.visible {
       opacity: 1;
     }
+
+    .header-visual {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    #soundwave {
+      width: 100%;
+      height: 100%;
+    }
+
+    #soundwave path {
+      animation: wave 4s linear infinite alternate;
+    }
+
+    @keyframes wave {
+      0% {
+        d: path("M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15");
+      }
+      50% {
+        d: path("M0 15 Q 5 30, 10 15 T 20 15 Q 25 0, 30 15 T 40 15 Q 45 30, 50 15 T 60 15 Q 65 0, 70 15 T 80 15 Q 85 30, 90 15 T 100 15");
+      }
+      100% {
+        d: path("M0 15 Q 5 10, 10 15 T 20 15 Q 25 20, 30 15 T 40 15 Q 45 10, 50 15 T 60 15 Q 65 20, 70 15 T 80 15 Q 85 10, 90 15 T 100 15");
+      }
+    }
   </style>
 </head>
 <body>
@@ -108,46 +138,37 @@
     <h2>Do Music for Good</h2>
     <div class="slot-row" id="slot-row"></div>
     <div class="acronym" id="acronym"></div>
+
+    <!-- 🎵 Soundwave Animation -->
+    <div class="header-visual">
+      <svg id="soundwave" viewBox="0 0 100 30" preserveAspectRatio="none">
+        <path d="M0 15 Q 5 0, 10 15 T 20 15 Q 25 30, 30 15 T 40 15 Q 45 0, 50 15 T 60 15 Q 65 30, 70 15 T 80 15 Q 85 0, 90 15 T 100 15" 
+              stroke="#f9a825" fill="none" stroke-width="1.5" />
+      </svg>
+    </div>
   </div>
 
   <script>
+    const acronymText = document.getElementById('acronym');
+    const slotRow = document.getElementById('slot-row');
+    const targetLetters = ['D', 'O', 'M', 'G'];
+    const slotHeight = 70;
+    const reelLength = 10;
+    const slotElements = [];
+
     const acronyms = [
       "Doing Outstanding Music for Good",
-      "Dare to Overcome with Music and Grace",
-      "Drive Original Melodies for Growth",
-      "Drop Over Mediocrity, Go beyond",
-      "Dedicated to Opening Minds with Groove",
-      "Defining Our Mission through Genres",
-      "Deep Organic Music Gives",
-      "Drive Opportunity through Music and Giving",
-      "Drop Of Music, Galaxy of meaning",
-      "Do Only Meaningful Grooves",
-      "Dream Of Music Globalized",
-      "Different Outlooks, Mutual Goal",
-      "Design Our Melody for Goodness",
-      "Dare Others with Music Generosity",
-      "Do Our Magic Globally",
-      "Deliver On Music’s Gift",
-      "Dreamers Opening Minds through Groove",
-      "Drop Old Models, Grow new",
       "Defend Originality, Make Good",
-      "Dedicated Organizers of Music and Goodwill"
+      "Do Our Magic Globally",
+      "Dream Of Music Globalized"
     ];
-
-    const targetLetters = ['D', 'O', 'M', 'G'];
-    const reelLength = 10;
-    const slotHeight = 70;
-
-    const slotRow = document.getElementById('slot-row');
-    const acronymText = document.getElementById('acronym');
-    const slotElements = [];
 
     function getRandomChar() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       return chars[Math.floor(Math.random() * chars.length)];
     }
 
-    function createReel(letter) {
+    function createReel(targetLetter) {
       const reel = document.createElement('div');
       reel.className = 'slot-reel';
 
@@ -157,9 +178,10 @@
         reel.appendChild(span);
       }
 
-      const targetSpan = document.createElement('span');
-      targetSpan.textContent = letter;
-      reel.appendChild(targetSpan);
+      const finalSpan = document.createElement('span');
+      finalSpan.textContent = targetLetter;
+      reel.appendChild(finalSpan);
+
       return reel;
     }
 
@@ -168,8 +190,8 @@
       anime({
         targets: reel,
         translateY: [0, -totalSteps * slotHeight],
-        duration: 3000 + index * 500,
-        easing: 'easeInOutQuad'
+        duration: 2000 + index * 400,
+        easing: 'easeInOutCubic'
       });
     }
 
@@ -186,7 +208,7 @@
         const random = acronyms[Math.floor(Math.random() * acronyms.length)];
         acronymText.textContent = random;
         acronymText.classList.add('visible');
-      }, 2000);
+      }, 2500);
     }
 
     function initSlots() {
