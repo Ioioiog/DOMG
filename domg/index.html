@@ -139,6 +139,26 @@
             font-style: italic;
             transition: opacity 0.5s ease;
         }
+        
+        .enhanced-coming-soon {
+            font-weight: 600;
+            background: linear-gradient(90deg, #ffeb3b, #ff9800, #ffeb3b);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-style: normal;
+            font-size: 1.5rem;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
+        }
 
         #play-button {
             background: rgba(255, 235, 59, 0.2);
@@ -224,7 +244,7 @@
             </div>
             
             <div class="slot-machine">
-                <div class="acronym" id="acronym">Dreaming Of Musical Greatness</div>
+                <div class="acronym" id="acronym"></div>
             </div>
             
         </div>
@@ -295,26 +315,7 @@
             // Set up acronym display that changes periodically
             const acronymElement = document.getElementById('acronym');
             const acronyms = [
-                "Dreaming Of Musical Greatness",
-                "Doing Outstanding Music for Good",
-                "Dare to Overcome with Music and Grace",
-                "Drive Original Melodies for Growth",
-                "Drop Over Mediocrity, Go beyond",
-                "Dedicated to Opening Minds with Groove",
-                "Defining Our Mission through Genres",
-                "Deep Organic Music Gives",
-                "Drive Opportunity through Music and Giving",
-                "Drop Of Music, Galaxy of meaning",
-                "Do Only Meaningful Grooves",
-                "Dream Of Music Globalized",
-                "Different Outlooks, Mutual Goal",
-                "Design Our Melody for Goodness",
-                "Dare Others with Music Generosity",
-                "Do Our Magic Globally",
-                "Deliver On Music's Gift",
-                "Dreamers Opening Minds through Groove",
-                "Drop Old Models, Grow new",
-                "Defend Originality, Make Good"
+                "<span class='enhanced-coming-soon'>Coming Soon</span>",
             ];
             
             let currentAcronym = 0;
@@ -322,7 +323,7 @@
             function changeAcronym() {
                 acronymElement.style.opacity = 0;
                 setTimeout(() => {
-                    acronymElement.textContent = acronyms[currentAcronym];
+                    acronymElement.innerHTML = acronyms[currentAcronym];
                     acronymElement.style.opacity = 1;
                     currentAcronym = (currentAcronym + 1) % acronyms.length;
                 }, 500);
@@ -330,6 +331,10 @@
             
             // Change acronym every 5 seconds
             setInterval(changeAcronym, 5000);
+            
+            // Immediately show enhanced "Coming Soon"
+            acronymElement.innerHTML = acronyms[0];
+            acronymElement.style.opacity = 1;
         }
 
         // Set up audio visualization
